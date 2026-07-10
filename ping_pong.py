@@ -18,27 +18,34 @@ class Player(GameSprate):
         keys_pressed =  key.get_pressed()
         if keys_pressed[K_w] and self.rect.y >5:
             self.rect.y -= self.speed
-        if keys_pressed[K_s] and  self.rect.y < 610:
+        if keys_pressed[K_s] and  self.rect.y < 350:
             self.rect.y += self.speed
     def update_right(self):
         keys_pressed =  key.get_pressed()
         if keys_pressed[K_UP] and self.rect.y >5:
             self.rect.y -= self.speed
-        if keys_pressed[K_DOWN] and  self.rect.y < 610:
+        if keys_pressed[K_DOWN] and  self.rect.y < 350:
             self.rect.y += self.speed
 
 window = display.set_mode((700, 500))
 display.set_caption('Пинг-Понг')
 window.fill((200, 255, 255))
 
+racket_left = Player('racket.png', 30, 200, 50, 150, 4)
+racket_right = Player('racket.png', 615, 200, 50, 160, 4)
+
 clock = time.Clock()
 game = True
+finish = False
 while game:
     for i in event.get():
         if i.type == QUIT:
             game = False
-        
-    
-    
+    if finish != True:
+        window.fill((200, 255, 255))
+        racket_left.update_left()
+        racket_right.update_right()
+        racket_left.reset()
+        racket_right.reset()
     display.update()
     clock.tick(60)    
