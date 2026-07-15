@@ -68,7 +68,6 @@ while game:
         ball.reset()
         if ball.rect.x < 0:
             finish = True
-            window.blit(wait, (200, 200))
             racket_right_num += 1
             finish_time = timer()
             ball.rect.x = 200
@@ -76,18 +75,23 @@ while game:
             racket_left.rect.y = 200
         if ball.rect.x > 650:
             finish = True
-            window.blit(wait, (200, 200)) 
             racket_left_num += 1 
             finish_time = timer() 
             ball.rect.x = 200
             ball.rect.y = 200
-            racket_right = 200
+            racket_right.rect.y = 200
         text_caunt = font.render(str(racket_left_num) + ':' + str(racket_right_num), 1,(255, 255, 255))      
         window.blit(text_caunt, (350, 0))
     else:
-        now_time = timer()
-        if now_time - finish_time >= 3:
-            finish = False
+        if racket_left_num >= 5:
+            window.blit(loose_1, (250, 200))
+        elif racket_right_num >= 5:
+            window.blit(loose_2, (250, 200))
+        else:
+            window.blit(wait, (200, 200))
+            now_time = timer()
+            if now_time - finish_time >= 3:
+                finish = False
 
     display.update()
     clock.tick(60)    
