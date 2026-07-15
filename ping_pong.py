@@ -1,4 +1,5 @@
 from pygame import *
+from time import time as timer
 
 class GameSprate(sprite.Sprite):
     def __init__(self, player_image, player_x, player_y, width, height, player_speed):
@@ -38,7 +39,11 @@ font.init()
 font = font.Font(None, 70)
 loose_1 = font.render('PLAYER 1 LOOSER!!!', True, (255, 0, 0))
 loose_2 = font.render('PLAYER 2 LOOSER!!!', True, (255, 0, 0))
+wait = font.render('WAIT 3 SECOND', True, (0, 255, 0))
 
+finish_time = 0
+racket_left_num = 0
+racket_right_num = 0
 speed_x = 5
 speed_y = 5
 clock = time.Clock()
@@ -63,10 +68,26 @@ while game:
         ball.reset()
         if ball.rect.x < 0:
             finish = True
-            window.blit(loose_1, (200, 200))
+            window.blit(wait, (200, 200))
+            racket_right_num += 1
+            finish_time = timer()
+            ball.rect.x = 200
+            ball.rect.y = 200
+            racket_left.rect.y = 200
         if ball.rect.x > 650:
             finish = True
-            window.blit(loose_2, (200, 200))    
+            window.blit(wait, (200, 200)) 
+            racket_left_num += 1 
+            finish_time = timer() 
+            ball.rect.x = 200
+            ball.rect.y = 200
+            racket_right = 200
+        text_caunt = font.render(str(racket_left_num) + ':' + str(racket_right_num), 1,(255, 255, 255))      
+        window.blit(text_caunt, (350, 0))
+    else:
+        now_time = timer()
+        if now_time - finish_time >= 3:
+            finish = False
 
     display.update()
     clock.tick(60)    
